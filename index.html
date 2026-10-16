@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#100c2a">
+<title>Happy Birthday Gajindu! 🎂</title>
+<style>
+  :root { --pink:#ff4f9a; --gold:#ffd166; --cyan:#75f4ff; --violet:#9d7bff; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body {
+    margin:0; min-height:100vh; overflow-x:hidden; color:#fff;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    background:
+      radial-gradient(ellipse at 15% 10%, #4d1e79 0, transparent 35%),
+      radial-gradient(ellipse at 90% 35%, #123b68 0, transparent 34%),
+      linear-gradient(145deg,#090817,#17102f 55%,#080d22);
+  }
+  #fireworks { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+  .page { position:relative; z-index:1; width:min(1100px,100%); margin:auto; padding:26px 20px 60px; text-align:center; }
+  .pill { display:inline-flex; gap:8px; align-items:center; padding:9px 15px; border:1px solid #ffffff35; border-radius:99px; background:#ffffff0e; backdrop-filter:blur(12px); color:#ffe6f2; font-size:.82rem; letter-spacing:.12em; text-transform:uppercase; }
+  .hero { min-height:65vh; display:flex; flex-direction:column; justify-content:center; align-items:center; padding:50px 0 28px; }
+  .cake { font-size:clamp(3.3rem,10vw,6rem); filter:drop-shadow(0 0 25px #ff72b7aa); animation:bob 2.4s ease-in-out infinite; }
+  h1 { margin:16px 0 12px; font-size:clamp(2.8rem,9vw,6.7rem); line-height:.98; letter-spacing:-.065em; font-weight:950; }
+  h1 span { display:block; background:linear-gradient(100deg,#fff 5%,#ffacd0 30%,#ffd76b 58%,#8af5ff 82%,#fff); background-size:220% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:shine 5s linear infinite; }
+  .subtitle { max-width:650px; color:#e0d9f4; font-size:clamp(1rem,2.4vw,1.25rem); line-height:1.7; margin:12px auto 24px; }
+  .sparkle { color:var(--gold); }
+  .cta { border:0; border-radius:99px; padding:14px 23px; color:#21102e; font-weight:800; font-size:1rem; background:linear-gradient(100deg,#ff91c4,#ffe08a); box-shadow:0 10px 35px #ff4f9a42; cursor:pointer; transition:transform .2s, box-shadow .2s; }
+  .cta:hover { transform:translateY(-3px) scale(1.02); box-shadow:0 14px 40px #ff4f9a70; }
+  .photos-title { margin:30px 0 7px; font-size:clamp(1.8rem,5vw,3rem); letter-spacing:-.04em; }
+  .photos-note { color:#c6bfdf; margin:0 0 28px; }
+  .photos { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; max-width:900px; margin:0 auto; }
+  .photo-card { position:relative; overflow:hidden; border:1px solid #ffffff2b; border-radius:24px; padding:10px; background:linear-gradient(145deg,#ffffff1b,#ffffff07); box-shadow:0 20px 55px #0005; backdrop-filter:blur(12px); animation:rise .8s both; }
+  .photo-card:nth-child(2) { animation-delay:.18s; }
+  .photo-card img { display:block; width:100%; height:clamp(220px,42vw,430px); object-fit:cover; border-radius:16px; background:#ffffff12; }
+  .wishes { margin:34px auto 0; max-width:760px; padding:24px 20px; border:1px solid #ffffff24; border-radius:22px; background:#ffffff0b; color:#f2eafa; line-height:1.8; }
+  .wishes strong { color:#ffd7e8; }
+  .footer { margin-top:35px; color:#a9a2c6; font-size:.86rem; }
+  .balloon { position:fixed; bottom:-140px; z-index:0; width:48px; height:62px; border-radius:50% 50% 46% 46%; opacity:.75; animation:floatUp linear infinite; pointer-events:none; }
+  .balloon::before { content:""; position:absolute; left:50%; bottom:-10px; border-left:5px solid transparent; border-right:5px solid transparent; border-top:11px solid currentColor; transform:translateX(-50%); }
+  .balloon::after { content:""; position:absolute; top:60px; left:50%; width:1px; height:55px; background:#ffffff6b; }
+  .b1 { left:5%; color:#ff72b6; background:#ff72b6; animation-duration:15s; }
+  .b2 { left:20%; color:#79efff; background:#79efff; animation-duration:19s; animation-delay:4s; transform:scale(.7); }
+  .b3 { right:8%; color:#ffd166; background:#ffd166; animation-duration:17s; animation-delay:2s; }
+  .b4 { right:24%; color:#a88aff; background:#a88aff; animation-duration:21s; animation-delay:7s; transform:scale(.8); }
+  .confetti { position:fixed; top:-20px; z-index:3; width:8px; height:13px; pointer-events:none; animation:confettiFall 3.2s linear forwards; }
+  @keyframes shine { to { background-position:220% center; } }
+  @keyframes bob { 0%,100% { transform:translateY(0) rotate(-3deg); } 50% { transform:translateY(-13px) rotate(3deg); } }
+  @keyframes floatUp { 0% { transform:translateY(0) rotate(-7deg); } 100% { transform:translateY(-125vh) rotate(12deg); } }
+  @keyframes rise { from { opacity:0; transform:translateY(22px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes confettiFall { to { transform:translateY(110vh) rotate(760deg); opacity:0; } }
+
+  .hero { position:relative; }
+  .hero::before { content:""; position:absolute; width:min(78vw,560px); aspect-ratio:1; border-radius:50%; border:1px solid #ffffff12; box-shadow:0 0 0 28px #ffffff05,0 0 0 58px #ffffff03; z-index:-1; animation:orbit 22s linear infinite; }
+  .hero::after { content:"✦  ✧  ·  ✦  ·  ✧"; position:absolute; top:16%; left:50%; width:100%; transform:translateX(-50%); color:#ffe6a6; font-size:clamp(1.2rem,4vw,2rem); letter-spacing:1.8rem; opacity:.7; animation:twinkle 2.8s ease-in-out infinite; pointer-events:none; }
+  .photo-card { transition:transform .35s ease, border-color .35s ease, box-shadow .35s ease; }
+  .photo-card:hover { transform:translateY(-8px) rotate(-.5deg); border-color:#ffacd080; box-shadow:0 25px 70px #ff4f9a20; }
+  .photo-card img { transition:transform .7s cubic-bezier(.2,.7,.2,1), filter .5s ease; }
+  .photo-card:hover img { transform:scale(1.035); filter:saturate(1.08); }
+  .photos { perspective:1000px; }
+  .wishes { position:relative; overflow:hidden; box-shadow:0 15px 55px #0002; }
+  .wishes::before { content:""; position:absolute; top:-80%; left:-40%; width:45%; height:260%; background:linear-gradient(90deg,transparent,#ffffff0d,transparent); transform:rotate(25deg); animation:glide 7s ease-in-out infinite; }
+  .wish-icons { font-size:clamp(1.5rem,4vw,2.2rem); letter-spacing:.6rem; animation:bob 3s ease-in-out infinite; }
+  .scroll-cue { margin-top:18px; color:#c8c0e8; font-size:.85rem; animation:twinkle 2s ease-in-out infinite; }
+  .music-note { display:inline-block; margin-left:6px; }
+  @keyframes orbit { to { transform:rotate(360deg); } }
+  @keyframes twinkle { 0%,100% { opacity:.45; filter:brightness(.9); } 50% { opacity:1; filter:brightness(1.4); } }
+  @keyframes glide { 0%,55% { left:-55%; } 100% { left:130%; } }
+  .shooting-star { position:fixed; top:12%; left:-15%; width:100px; height:2px; z-index:0; pointer-events:none; opacity:0; background:linear-gradient(90deg,transparent,#fff,#8af5ff,transparent); transform:rotate(-22deg); animation:shoot 8s ease-in-out infinite; }
+  @keyframes shoot { 0%,72% { left:-15%; top:12%; opacity:0; } 75% { opacity:1; } 84% { left:115%; top:43%; opacity:0; } 100% { left:115%; opacity:0; } }
+  .glow-dot { position:fixed; width:5px; height:5px; border-radius:50%; background:#fff5c2; box-shadow:0 0 12px 3px #ffb7ddaa; z-index:0; pointer-events:none; animation:twinkle 2s ease-in-out infinite; }
+
+
+  body.waiting .page, body.waiting .balloon, body.waiting .shooting-star, body.waiting .glow-dot { visibility:hidden; }
+  .intro-screen { position:fixed; inset:0; z-index:20; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; padding:28px 20px; overflow:hidden; background:radial-gradient(ellipse at 50% 38%,#4d1e79 0,transparent 43%),radial-gradient(ellipse at 10% 90%,#123b68 0,transparent 40%),linear-gradient(145deg,#090817,#17102f 55%,#080d22); transition:opacity .8s ease, visibility .8s ease; }
+  .intro-screen::before,.intro-screen::after { content:""; position:absolute; width:min(82vw,580px); aspect-ratio:1; border:1px solid #ffffff15; border-radius:50%; box-shadow:0 0 0 32px #ffffff05,0 0 0 64px #ffffff03; animation:orbit 24s linear infinite; pointer-events:none; }
+  .intro-screen::after { width:min(60vw,420px); animation-direction:reverse; animation-duration:17s; }
+  .intro-screen.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+  .intro-cake { z-index:1; font-size:clamp(4rem,12vw,7rem); filter:drop-shadow(0 0 28px #ff72b7aa); animation:bob 2.2s ease-in-out infinite; }
+  .intro-kicker { z-index:1; margin:18px 0 10px; color:#ffe2f0; font-size:.76rem; font-weight:800; letter-spacing:.22em; }
+  .intro-title { z-index:1; margin:0; font-size:clamp(2.5rem,9vw,5.5rem); line-height:1.05; letter-spacing:-.06em; }
+  .intro-title span { background:linear-gradient(100deg,#ffacd0,#ffd76b,#8af5ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .intro-copy { z-index:1; color:#ded5f5; margin:18px 0 24px; font-size:1.05rem; }
+  .intro-button { z-index:1; position:relative; }
+  .intro-hint { z-index:1; color:#bcb2d9; font-size:.82rem; margin-top:17px; }
+  .intro-orbit { position:absolute; top:14%; right:15%; font-size:2rem; color:#ffe08a; animation:twinkle 1.8s infinite; }
+  .sound-toggle { position:fixed; right:16px; bottom:16px; z-index:10; border:1px solid #ffffff35; border-radius:99px; background:#17102fe8; color:#fff; padding:11px 15px; font:700 .85rem system-ui,sans-serif; cursor:pointer; box-shadow:0 8px 28px #0004; backdrop-filter:blur(12px); }
+  .sound-toggle:hover { border-color:#ffacd0; transform:translateY(-2px); }
+  body.waiting .sound-toggle { display:none; }
+  .page.entered { animation:pageReveal 1.2s both; }
+  @keyframes pageReveal { from { opacity:0; transform:translateY(18px) scale(.99); } to { opacity:1; transform:translateY(0) scale(1); } }
+
+
+
+  /* 3D parallax atmosphere */
+  .parallax-scene { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; perspective:900px; }
+  .parallax-layer { position:absolute; inset:-7%; will-change:transform; transition:transform .18s ease-out; }
+  .parallax-glow { background:radial-gradient(ellipse at 25% 28%,#a855f733,transparent 34%),radial-gradient(ellipse at 78% 70%,#06b6d433,transparent 30%); }
+  .parallax-orbs { background-image:radial-gradient(circle at 18% 23%,#ff8bc455 0 3px,transparent 5px),radial-gradient(circle at 76% 32%,#8af5ff66 0 4px,transparent 6px),radial-gradient(circle at 57% 78%,#ffd16655 0 3px,transparent 5px),radial-gradient(circle at 88% 82%,#a78bfa66 0 5px,transparent 7px); }
+  .parallax-grid { opacity:.12; background-image:linear-gradient(#ffffff 1px,transparent 1px),linear-gradient(90deg,#ffffff 1px,transparent 1px); background-size:70px 70px; mask-image:linear-gradient(to bottom,transparent,#000 25%,#000 75%,transparent); }
+  .music-visualizer { position:fixed; z-index:11; bottom:66px; right:18px; display:flex; align-items:flex-end; justify-content:center; gap:3px; width:86px; height:32px; padding:6px 8px; border:1px solid #ffffff2b; border-radius:14px; background:#17102fcf; backdrop-filter:blur(12px); opacity:.45; transition:opacity .25s; pointer-events:none; }
+  .music-visualizer.active { opacity:1; }
+  .music-visualizer span { display:block; width:5px; height:6px; border-radius:5px; background:linear-gradient(to top,#ff4f9a,#ffd166,#75f4ff); transform-origin:bottom; }
+  .music-visualizer.active span { animation:musicBars .55s ease-in-out infinite alternate; }
+  .music-visualizer span:nth-child(2n) { animation-delay:.18s; }
+  .music-visualizer span:nth-child(3n) { animation-delay:.32s; }
+  @keyframes musicBars { from { height:5px; } to { height:25px; } }
+  .gift-reveal-emoji { font-size:clamp(5rem,18vw,9rem); line-height:1.1; margin:6px auto 12px; filter:drop-shadow(0 0 24px #ff4f9a88); animation:giftReveal .7s cubic-bezier(.2,.9,.2,1) both; }
+  @keyframes giftReveal { 0% { opacity:0; transform:scale(.2) rotate(-30deg); } 70% { transform:scale(1.16) rotate(8deg); } 100% { opacity:1; transform:scale(1) rotate(0); } }
+
+  .feature-section { max-width:900px; margin:30px auto; padding:24px; border:1px solid #ffffff24; border-radius:24px; background:linear-gradient(145deg,#ffffff12,#ffffff05); box-shadow:0 18px 50px #0003; text-align:center; }
+  .feature-title { margin:0 0 8px; font-size:clamp(1.45rem,4.5vw,2.2rem); letter-spacing:-.04em; }
+  .feature-copy { color:#cfc6e8; line-height:1.65; margin:0 auto 18px; max-width:620px; }
+  .feature-button { border:1px solid #ffffff30; border-radius:99px; background:#ffffff12; color:white; padding:11px 16px; font:700 .95rem system-ui,sans-serif; cursor:pointer; transition:.2s; margin:5px; }
+  .feature-button:hover { transform:translateY(-2px); border-color:#ffacd0; background:#ff4f9a25; }
+  .gift-wrap { width:180px; height:150px; margin:16px auto 18px; display:grid; place-items:center; position:relative; }
+  .gift-box { font-size:7rem; cursor:pointer; filter:drop-shadow(0 0 20px #ff4f9a66); animation:bob 2s infinite; border:0; background:none; }
+  .gift-box.opened { animation:giftOpen .6s ease both; }
+  @keyframes giftOpen { 50% { transform:scale(1.3) rotate(8deg); } 100% { transform:scale(.9) rotate(0); } }
+  .feature-message { display:none; margin:14px auto 0; padding:16px; border-radius:16px; color:#fff0f7; background:#ff4f9a18; border:1px solid #ffacd044; line-height:1.7; }
+  .feature-message.show { display:block; animation:rise .6s both; }
+  .candle-cake { font-size:clamp(4.5rem,13vw,7rem); margin:10px 0; filter:drop-shadow(0 0 22px #ffd16650); }
+  .flames { font-size:1.8rem; letter-spacing:.45rem; min-height:38px; animation:twinkle 1.2s infinite; }
+  .flames.out { opacity:0; transform:translateY(10px); }
+  .slide-frame { position:relative; max-width:620px; margin:15px auto; overflow:hidden; border-radius:20px; border:1px solid #ffffff2c; background:#ffffff0a; }
+  .slide-frame img { display:block; width:100%; max-height:460px; height:min(65vw,460px); min-height:230px; object-fit:contain; background:#100c2a; transition:opacity .25s; }
+  .slide-count { color:#d6cde9; font-size:.9rem; }
+  .game-arena { position:relative; height:230px; max-width:600px; margin:16px auto; border:1px dashed #ffffff40; border-radius:18px; overflow:hidden; background:radial-gradient(ellipse at center,#7d42a522,transparent 70%); }
+  .game-star { position:absolute; border:0; background:none; font-size:2.3rem; cursor:pointer; filter:drop-shadow(0 0 12px #ffd16688); animation:bob .8s infinite; }
+  .game-status { color:#ffe4f0; font-weight:800; min-height:26px; }
+  .secret-row { display:flex; flex-wrap:wrap; justify-content:center; gap:8px; margin-top:14px; }
+  .secret-row input { width:min(240px,100%); border-radius:99px; border:1px solid #ffffff35; background:#0f0b24; color:white; padding:12px 16px; font:inherit; outline:none; }
+  .secret-row input:focus { border-color:#ff91c4; }
+  .party-mode { position:fixed; inset:0; z-index:9; pointer-events:none; border:8px solid transparent; animation:partyBorder .7s infinite alternate; }
+  body.party-on { animation:partyBackground 2s linear infinite; }
+  @keyframes partyBorder { from { border-color:#ff4f9a55; } to { border-color:#75f4ff88; } }
+  @keyframes partyBackground { 0%,100% { filter:hue-rotate(0deg); } 50% { filter:hue-rotate(35deg); } }
+  @media (max-width:620px) { .feature-section { padding:19px 14px; margin:22px auto; } .gift-wrap { height:125px; } }
+
+  @media (max-width:620px) {
+    .page { padding:18px 14px 42px; }
+    .hero { min-height:60vh; padding-top:35px; }
+    .photos { grid-template-columns:1fr; gap:17px; max-width:470px; }
+    .photo-card img { height:auto; max-height:480px; min-height:240px; }
+  }
+  @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; scroll-behavior:auto !important; } }
+
+  .extra-games-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:22px;text-align:left}
+  .mini-game-card{background:linear-gradient(145deg,rgba(36,28,76,.9),rgba(12,18,48,.9));border:1px solid #8c70ff66;border-radius:18px;padding:18px;box-shadow:0 10px 28px #0003}
+  .mini-game-card h3{margin:0 0 8px;color:#f0d9ff}.mini-game-card p{color:#d6d0ef;font-size:.94rem}
+  .mini-game-status{min-height:28px;margin:10px 0;color:#ffe7a8;font-weight:700}
+  .game-pad{min-height:100px;border:1px dashed #a99bff88;border-radius:14px;padding:12px;display:flex;align-items:center;justify-content:center;gap:9px;flex-wrap:wrap;background:#090c2466}
+  .game-choice{font-size:1.4rem;min-width:48px;min-height:48px;border-radius:12px;border:1px solid #b8a5ff;background:#34266d;color:white;cursor:pointer}
+  .game-choice:active{transform:scale(.94)}.reaction-target{width:100%;min-height:86px;border:0;border-radius:14px;background:#34266d;color:white;font-size:1.2rem;font-weight:800;cursor:pointer}
+  .memory-tile{width:54px;height:54px;font-size:1.5rem}.memory-tile.revealed{background:#5945a0}
+  .number-display{font-size:2rem;letter-spacing:8px;color:#ffe7a8;font-weight:900}
+  @media(max-width:560px){.extra-games-grid{grid-template-columns:1fr}.mini-game-card{padding:14px}}
+
+</style>
+</head>
+<body>
+<div class="parallax-scene" aria-hidden="true">
+  <div class="parallax-layer parallax-glow" data-depth="0.12"></div>
+  <div class="parallax-layer parallax-orbs" data-depth="0.28"></div>
+  <div class="parallax-layer parallax-grid" data-depth="0.42"></div>
+</div>
+<div class="intro-screen" id="introScreen">
+  <div class="intro-orbit" aria-hidden="true">✦</div>
+  <div class="intro-cake" aria-hidden="true">🎂</div>
+  <p class="intro-kicker">A LITTLE SURPRISE IS WAITING</p>
+  <h2 class="intro-title">Hey, Gajindu!<br><span>It's your day ✨</span></h2>
+  <p class="intro-copy">Ready for your birthday surprise?</p>
+  <button class="cta intro-button" id="startCelebration">🎁 Open Your Surprise</button>
+  <p class="intro-hint">🔊 Sound starts when you tap the button</p>
+</div>
+<audio id="birthdaySong" preload="auto" loop playsinline>
+  <source src="https://www.orangefreesounds.com/wp-content/uploads/2016/08/Happy-birthday-instrumental.mp3" type="audio/mpeg">
+  <source src="https://commons.wikimedia.org/wiki/Special:Redirect/file/Happy_Birthday_to_You.ogg" type="audio/ogg">
+</audio>
+<button class="sound-toggle" id="soundToggle" aria-label="Mute birthday music" title="Mute / play birthday music">🔊 Music On</button>
+<div class="music-visualizer" id="musicVisualizer" aria-label="Music visualizer" title="Birthday music visualizer">
+  <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<canvas id="fireworks" aria-hidden="true"></canvas>
+<div class="shooting-star" aria-hidden="true"></div>
+<div class="glow-dot" style="left:12%;top:34%;animation-delay:.4s" aria-hidden="true"></div>
+<div class="glow-dot" style="left:82%;top:18%;animation-delay:1.2s" aria-hidden="true"></div>
+<div class="glow-dot" style="left:71%;top:67%;animation-delay:.8s" aria-hidden="true"></div>
+<div class="glow-dot" style="left:24%;top:77%;animation-delay:1.7s" aria-hidden="true"></div>
+<div class="balloon b1" aria-hidden="true"></div><div class="balloon b2" aria-hidden="true"></div>
+<div class="balloon b3" aria-hidden="true"></div><div class="balloon b4" aria-hidden="true"></div>
+<main class="page">
+  <section class="hero">
+    <div class="pill">✦ A special day • A special person ✦</div>
+    <div class="cake" aria-hidden="true">🎂</div>
+    <h1><span>Happy Birthday</span><span>Gajindu!</span></h1>
+    <p class="subtitle">Today is all about you! 🎉 Wishing you a day filled with big smiles, unforgettable memories, and all the happiness you deserve. Keep shining, legend! <span class="sparkle">✦</span></p>
+    <button class="cta" id="celebrate">🎊 Make Some Birthday Magic</button>
+    <div class="scroll-cue">↓ Scroll down for the memories ↓</div>
+  </section>
+
+  <section aria-labelledby="photos-heading">
+    <h2 class="photos-title" id="photos-heading">📸 Birthday Memories</h2>
+    <p class="photos-note">Two moments, one awesome person 💫</p>
+    <div class="photos">
+      <figure class="photo-card">
+        <img src="image1.jpeg" alt="Gajindu — photo 1" onerror="this.alt='Please add image1.jpeg beside this HTML file';this.style.objectFit='contain';this.style.padding='20px';this.style.minHeight='220px';this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22 viewBox=%220 0 400 300%22%3E%3Crect width=%22400%22 height=%22300%22 fill=%22%23251c45%22/%3E%3Ctext x=%22200%22 y=%22140%22 fill=%22white%22 font-size=%2220%22 text-anchor=%22middle%22%3Eimage1.jpeg%3C/text%3E%3Ctext x=%22200%22 y=%22175%22 fill=%22%23d8c9ff%22 font-size=%2214%22 text-anchor=%22middle%22%3EPlace photo beside HTML%3C/text%3E%3C/svg%3E';">
+      </figure>
+      <figure class="photo-card">
+        <img src="image2.jpeg" alt="Gajindu — photo 2" onerror="this.alt='Please add image2.jpeg beside this HTML file';this.style.objectFit='contain';this.style.padding='20px';this.style.minHeight='220px';this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22300%22 viewBox=%220 0 400 300%22%3E%3Crect width=%22400%22 height=%22300%22 fill=%22%23251c45%22/%3E%3Ctext x=%22200%22 y=%22140%22 fill=%22white%22 font-size=%2220%22 text-anchor=%22middle%22%3Eimage2.jpeg%3C/text%3E%3Ctext x=%22200%22 y=%22175%22 fill=%22%23d8c9ff%22 font-size=%2214%22 text-anchor=%22middle%22%3EPlace photo beside HTML%3C/text%3E%3C/svg%3E';">
+      </figure>
+    </div>
+  </section>
+
+
+  <section class="feature-section" id="gift-section">
+    <h2 class="feature-title">🎁 A Little Mystery Gift</h2>
+    <p class="feature-copy">There's a surprise waiting for you, Gajindu. Tap the gift to open it!</p>
+    <div class="gift-wrap"><button class="gift-box" id="giftBox" aria-label="Open the mystery gift">🎁</button></div>
+    <div class="feature-message" id="giftMessage">
+      <div class="gift-reveal-emoji" id="giftRevealEmoji">🖕</div>
+      😂 GOTCHA, GAJINDU! Just a cheeky birthday troll!
+      <br><br>Happy Birthday, legend! 🎂💜 Hope your day is full of laughs, great memories, and absolutely zero boring moments.
+    </div>
+  </section>
+
+  <section class="feature-section" id="cake-section">
+    <h2 class="feature-title">🕯️ Make a Wish!</h2>
+    <p class="feature-copy">Take a moment, make a birthday wish, then tap the button to blow out the candles.</p>
+    <div class="flames" id="flames" aria-label="Burning candles">🔥 🔥 🔥</div>
+    <div class="candle-cake" aria-hidden="true">🎂</div>
+    <button class="feature-button" id="blowCandles">💨 Blow Out Candles</button>
+    <div class="feature-message" id="cakeMessage">✨ Wish made! May this year bring you great adventures and lots of reasons to smile. ✨</div>
+  </section>
+
+  <section class="feature-section" id="slideshow-section">
+    <h2 class="feature-title">📸 Memory Spotlight</h2>
+    <p class="feature-copy">Enjoy the two photos in a little cinematic slideshow.</p>
+    <div class="slide-frame"><img id="slideImage" src="image1.jpeg" alt="Gajindu birthday memory"></div>
+    <div class="slide-count" id="slideCount">Memory 1 of 2</div>
+    <div>
+      <button class="feature-button" id="prevSlide">← Previous</button>
+      <button class="feature-button" id="nextSlide">Next →</button>
+      <button class="feature-button" id="autoSlide">▶ Play Slideshow</button>
+    </div>
+  </section>
+
+  <section class="feature-section" id="game-section">
+    <h2 class="feature-title">🎮 Catch the Birthday Stars</h2>
+    <p class="feature-copy">Press start, then tap as many stars as you can before the timer ends!</p>
+    <div class="game-status" id="gameStatus">Ready when you are ⭐</div>
+    <div class="game-arena" id="gameArena"><span style="position:absolute;inset:0;display:grid;place-items:center;color:#ffffff55;pointer-events:none">Stars will appear here ✨</span></div>
+    <div><button class="feature-button" id="startGame">▶ Start Game</button><button class="feature-button" id="stopGame">↻ Reset</button></div>
+  </section>
+
+
+  <section class="feature-section" id="extra-games-section">
+    <h2 class="feature-title">🕹️ Gajindu's Arcade — 5 More Games!</h2>
+    <p class="feature-copy">Challenge yourself, beat your scores, and prove you're the birthday legend. All games work on mobile too!</p>
+    <div class="extra-games-grid">
+      <div class="mini-game-card">
+        <h3>⚡ 1. Reaction Rush</h3>
+        <p>Tap the button only when it turns green. See how quick your reaction is!</p>
+        <button class="reaction-target" id="reactionTarget">Press Start first</button>
+        <div class="mini-game-status" id="reactionStatus">Ready?</div>
+        <button class="feature-button" id="reactionStart">▶ Start Reaction Test</button>
+      </div>
+      <div class="mini-game-card">
+        <h3>🧠 2. Memory Match</h3>
+        <p>Find all matching emoji pairs. Tap two tiles at a time.</p>
+        <div class="game-pad" id="memoryBoard"></div>
+        <div class="mini-game-status" id="memoryStatus">Moves: 0 · Pairs: 0/4</div>
+        <button class="feature-button" id="memoryStart">↻ Shuffle & Play</button>
+      </div>
+      <div class="mini-game-card">
+        <h3>🔢 3. Guess the Number</h3>
+        <p>I'm thinking of a number from 1 to 20. Can you guess it?</p>
+        <form id="guessForm" class="secret-row">
+          <input id="guessInput" type="number" min="1" max="20" placeholder="1–20" aria-label="Guess a number" required>
+          <button class="feature-button" type="submit">Guess</button>
+        </form>
+        <div class="mini-game-status" id="guessStatus">Make your first guess!</div>
+        <button class="feature-button" id="guessReset">New Number</button>
+      </div>
+      <div class="mini-game-card">
+        <h3>🎨 4. Color Memory</h3>
+        <p>Watch the color sequence, then repeat it in the same order.</p>
+        <div class="game-pad" id="colorBoard">
+          <button class="game-choice" data-color="0" style="background:#e84a8a" aria-label="Pink">🩷</button>
+          <button class="game-choice" data-color="1" style="background:#3b82f6" aria-label="Blue">💙</button>
+          <button class="game-choice" data-color="2" style="background:#22a06b" aria-label="Green">💚</button>
+          <button class="game-choice" data-color="3" style="background:#f59e0b" aria-label="Yellow">💛</button>
+        </div>
+        <div class="mini-game-status" id="colorStatus">Press start to begin.</div>
+        <button class="feature-button" id="colorStart">▶ Start Sequence</button>
+      </div>
+      <div class="mini-game-card">
+        <h3>✊ 5. Rock, Paper, Scissors</h3>
+        <p>Take on the birthday bot. First to 5 wins!</p>
+        <div class="game-pad" id="rpsBoard">
+          <button class="game-choice" data-rps="rock" aria-label="Rock">✊</button>
+          <button class="game-choice" data-rps="paper" aria-label="Paper">✋</button>
+          <button class="game-choice" data-rps="scissors" aria-label="Scissors">✌️</button>
+        </div>
+        <div class="mini-game-status" id="rpsStatus">You 0 — Bot 0</div>
+        <button class="feature-button" id="rpsReset">↻ Reset Match</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-section" id="secret-section">
+    <h2 class="feature-title">🔐 Secret Birthday Surprise</h2>
+    <p class="feature-copy">Only the birthday star knows the magic word… hint: his name!</p>
+    <form class="secret-row" id="secretForm">
+      <input id="secretCode" aria-label="Secret code" placeholder="Enter secret code" autocomplete="off">
+      <button class="feature-button" type="submit">Unlock ✨</button>
+    </form>
+    <div class="feature-message" id="secretMessage">🔓 You unlocked the secret! Gajindu, you're one of a kind. Hope your birthday is packed with unforgettable moments, good vibes, and big wins. 🎉💜</div>
+  </section>
+
+  <section class="feature-section" id="party-section">
+    <h2 class="feature-title">🎆 Turn Up the Party!</h2>
+    <p class="feature-copy">Ready for a bigger celebration? Turn on Party Mode for extra color, confetti and fireworks.</p>
+    <button class="cta" id="partyButton">🎉 Activate Party Mode</button>
+    <div class="feature-message" id="partyMessage">PARTY MODE ACTIVATED! 🥳 Tap again whenever you're ready to chill.</div>
+  </section>
+  <div class="party-mode" id="partyBorder" hidden aria-hidden="true"></div>
+
+  <div class="wishes">
+    <div class="wish-icons" style="margin-bottom:10px">🎁 🥳 🎈 ✨</div>
+    <strong>May this new chapter bring you amazing adventures, true friends, lots of laughter, and dreams that come true.</strong><br>
+    Have the best birthday ever, Gajindu! 💖
+  </div>
+  <footer class="footer">Made with 💜 just for Gajindu · Let the celebrations begin!</footer>
+</main>
+<script>
+(() => {
+  document.body.classList.add('waiting');
+  const introScreen = document.getElementById('introScreen');
+  const birthdaySong = document.getElementById('birthdaySong');
+  const soundToggle = document.getElementById('soundToggle');
+  let musicOn = true;
+  const musicVisualizer = document.getElementById('musicVisualizer');
+
+  function updateVisualizer() {
+    musicVisualizer.classList.toggle('active', !birthdaySong.paused && !birthdaySong.ended);
+  }
+  birthdaySong.addEventListener('play', updateVisualizer);
+  birthdaySong.addEventListener('pause', updateVisualizer);
+  birthdaySong.addEventListener('ended', updateVisualizer);
+  birthdaySong.addEventListener('error', () => {
+    updateVisualizer();
+    soundToggle.textContent = '⚠ Tap to retry music';
+    soundToggle.title = 'Music could not load. Check your internet connection and tap to retry.';
+  });
+  birthdaySong.addEventListener('playing', () => {
+    soundToggle.textContent = '🔊 Music On';
+    soundToggle.title = 'Tap to pause or play birthday music';
+    updateVisualizer();
+  });
+
+  // Subtle pointer parallax on desktop; tilt fallback on touch devices.
+  const parallaxLayers = document.querySelectorAll('.parallax-layer');
+  function moveParallax(x, y) {
+    const dx = (x / innerWidth - 0.5) * 2;
+    const dy = (y / innerHeight - 0.5) * 2;
+    parallaxLayers.forEach(layer => {
+      const depth = Number(layer.dataset.depth || 0.1);
+      layer.style.transform = `translate3d(${dx * depth * 26}px, ${dy * depth * 26}px, 0) scale(1.06)`;
+    });
+  }
+  addEventListener('pointermove', event => {
+    if (event.pointerType === 'mouse') moveParallax(event.clientX, event.clientY);
+  }, { passive: true });
+  addEventListener('deviceorientation', event => {
+    if (event.gamma == null || event.beta == null) return;
+    const x = innerWidth * (0.5 + Math.max(-25, Math.min(25, event.gamma)) / 50);
+    const y = innerHeight * (0.5 + Math.max(-25, Math.min(25, event.beta)) / 50);
+    moveParallax(x, y);
+  }, { passive: true });
+
+  document.getElementById('startCelebration').addEventListener('click', async () => {
+    introScreen.classList.add('hidden');
+    document.body.classList.remove('waiting');
+    document.querySelector('.page').classList.add('entered');
+    musicOn = true;
+    soundToggle.textContent = '🔊 Music On';
+    try {
+      birthdaySong.volume = 0.55;
+      await birthdaySong.play();
+    } catch (err) {
+      musicOn = false;
+      updateVisualizer();
+      soundToggle.textContent = '▶ Try Music';
+      soundToggle.title = 'Tap to try playing the birthday song again';
+    }
+    for(let i=0;i<6;i++) setTimeout(()=>burst(innerWidth*(.1+Math.random()*.8),innerHeight*(.12+Math.random()*.48),95),i*170);
+    confettiRain(160);
+  });
+
+  soundToggle.addEventListener('click', async () => {
+    if (birthdaySong.paused) {
+      try { await birthdaySong.play(); musicOn = true; soundToggle.textContent = '🔊 Music On'; updateVisualizer(); }
+      catch (err) { soundToggle.textContent = '⚠ Music unavailable'; updateVisualizer(); }
+    } else {
+      birthdaySong.pause(); musicOn = false; soundToggle.textContent = '🔇 Music Off'; updateVisualizer();
+    }
+  });
+
+  const canvas = document.getElementById('fireworks');
+  const ctx = canvas.getContext('2d');
+  let w, h, particles = [], lastBurst = 0;
+  const colors = ['#ff4f9a','#ffd166','#75f4ff','#a78bfa','#ffffff','#ff875e'];
+  function resize(){ w = canvas.width = innerWidth * devicePixelRatio; h = canvas.height = innerHeight * devicePixelRatio; canvas.style.width=innerWidth+'px'; canvas.style.height=innerHeight+'px'; ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0); }
+  addEventListener('resize', resize); resize();
+  function burst(x,y,count=65){
+    for(let i=0;i<count;i++){ const a=Math.random()*Math.PI*2, speed=1.2+Math.random()*4.2;
+      particles.push({x,y,vx:Math.cos(a)*speed,vy:Math.sin(a)*speed,life:45+Math.random()*35,max:80,size:1.5+Math.random()*2.2,color:colors[Math.floor(Math.random()*colors.length)]});
+    }
+  }
+  function frame(t){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    if(t-lastBurst>1250){ burst(innerWidth*(.15+Math.random()*.7), innerHeight*(.12+Math.random()*.43), 42); lastBurst=t; }
+    particles=particles.filter(p=>p.life>0);
+    for(const p of particles){ p.x+=p.vx; p.y+=p.vy; p.vy+=.035; p.vx*=.99; p.life--;
+      ctx.globalAlpha=Math.max(0,p.life/p.max); ctx.fillStyle=p.color; ctx.beginPath(); ctx.arc(p.x,p.y,p.size,0,Math.PI*2); ctx.fill();
+    }
+    ctx.globalAlpha=1; requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+  function confettiRain(amount=120){
+    for(let i=0;i<amount;i++){ const el=document.createElement('i'); el.className='confetti';
+      el.style.left=Math.random()*100+'vw'; el.style.background=colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDelay=(Math.random()*.8)+'s'; el.style.transform='rotate('+Math.random()*360+'deg)';
+      el.style.borderRadius=Math.random()>.5?'50%':'2px'; document.body.appendChild(el); setTimeout(()=>el.remove(),4200);
+    }
+  }
+  document.getElementById('celebrate').addEventListener('click',()=>{
+    for(let i=0;i<8;i++) setTimeout(()=>burst(innerWidth*(.08+Math.random()*.84),innerHeight*(.10+Math.random()*.55),105),i*150);
+    confettiRain(240);
+    const btn=document.getElementById('celebrate'); btn.textContent='🎉 Happy Birthday, Gajindu! 🎉';
+    setTimeout(()=>btn.textContent='🎊 Make Some Birthday Magic',3000);
+  });
+
+  // Mystery gift reveal
+  document.getElementById('giftBox').addEventListener('click', () => {
+    const gift = document.getElementById('giftBox');
+    gift.classList.add('opened');
+    gift.textContent = '🎊';
+    document.getElementById('giftMessage').classList.add('show');
+    document.getElementById('giftRevealEmoji').classList.remove('gift-reveal-emoji');
+    void document.getElementById('giftRevealEmoji').offsetWidth;
+    document.getElementById('giftRevealEmoji').classList.add('gift-reveal-emoji');
+    for(let i=0;i<5;i++) setTimeout(()=>burst(innerWidth*(.12+Math.random()*.76),innerHeight*(.18+Math.random()*.5),75),i*150);
+    confettiRain(110);
+  });
+
+  // Birthday cake candles
+  document.getElementById('blowCandles').addEventListener('click', () => {
+    document.getElementById('flames').classList.add('out');
+    document.getElementById('cakeMessage').classList.add('show');
+    document.getElementById('blowCandles').textContent = '✨ Wish Made!';
+    burst(innerWidth/2, innerHeight*.55, 75);
+    confettiRain(70);
+  });
+
+  // Cinematic slideshow (uses the same two local image files)
+  const slideImage = document.getElementById('slideImage');
+  const slideCount = document.getElementById('slideCount');
+  const slideSources = ['image1.jpeg', 'image2.jpeg'];
+  let slideIndex = 0, slideTimer = null;
+  function showSlide(index) {
+    slideIndex = (index + slideSources.length) % slideSources.length;
+    slideImage.style.opacity = '0';
+    setTimeout(() => {
+      slideImage.src = slideSources[slideIndex];
+      slideImage.alt = 'Gajindu birthday memory ' + (slideIndex + 1);
+      slideCount.textContent = 'Memory ' + (slideIndex + 1) + ' of ' + slideSources.length;
+      slideImage.style.opacity = '1';
+    }, 180);
+  }
+  document.getElementById('prevSlide').addEventListener('click', () => showSlide(slideIndex - 1));
+  document.getElementById('nextSlide').addEventListener('click', () => showSlide(slideIndex + 1));
+  document.getElementById('autoSlide').addEventListener('click', () => {
+    const button = document.getElementById('autoSlide');
+    if (slideTimer) {
+      clearInterval(slideTimer); slideTimer = null; button.textContent = '▶ Play Slideshow';
+    } else {
+      slideTimer = setInterval(() => showSlide(slideIndex + 1), 3000);
+      button.textContent = 'Ⅱ Pause Slideshow';
+    }
+  });
+
+  // Small tap-friendly star-catching mini game
+  const arena = document.getElementById('gameArena');
+  let gameScore = 0, gameTime = 15, gameInterval = null, gameActive = false;
+  function spawnStar() {
+    const old = arena.querySelector('.game-star');
+    if (old) old.remove();
+    const star = document.createElement('button');
+    star.type = 'button'; star.className = 'game-star'; star.textContent = '⭐';
+    star.setAttribute('aria-label', 'Catch star');
+    star.style.left = Math.max(3, Math.random()*82) + '%';
+    star.style.top = Math.max(4, Math.random()*65) + '%';
+    star.addEventListener('click', () => {
+      if (!gameActive) return;
+      gameScore++;
+      document.getElementById('gameStatus').textContent = '⭐ Score: ' + gameScore + ' · Time left: ' + gameTime + 's';
+      star.remove(); spawnStar();
+    });
+    arena.appendChild(star);
+  }
+  function endGame() {
+    gameActive = false;
+    clearInterval(gameInterval); gameInterval = null;
+    const star = arena.querySelector('.game-star'); if (star) star.remove();
+    document.getElementById('gameStatus').textContent = '🎉 Final score: ' + gameScore + ' stars! ' + (gameScore >= 10 ? 'Star catcher pro!' : 'Try again and beat your score!');
+  }
+  document.getElementById('startGame').addEventListener('click', () => {
+    clearInterval(gameInterval); gameScore = 0; gameTime = 15; gameActive = true;
+    document.getElementById('gameStatus').textContent = '⭐ Score: 0 · Time left: 15s';
+    spawnStar();
+    gameInterval = setInterval(() => {
+      gameTime--;
+      if (gameTime <= 0) endGame();
+      else document.getElementById('gameStatus').textContent = '⭐ Score: ' + gameScore + ' · Time left: ' + gameTime + 's';
+    }, 1000);
+  });
+  document.getElementById('stopGame').addEventListener('click', () => {
+    clearInterval(gameInterval); gameInterval = null; gameActive = false; gameScore = 0; gameTime = 15;
+    arena.querySelectorAll('.game-star').forEach(star => star.remove());
+    document.getElementById('gameStatus').textContent = 'Ready when you are ⭐';
+  });
+
+
+  // Extra arcade games: reaction, memory match, number guess, color memory, and RPS.
+  const reactionTarget = document.getElementById('reactionTarget');
+  let reactionTimer = null, reactionStartedAt = 0, reactionState = 'idle';
+  document.getElementById('reactionStart').addEventListener('click', () => {
+    clearTimeout(reactionTimer); reactionState = 'waiting';
+    reactionTarget.style.background = '#6b7280'; reactionTarget.textContent = 'Wait for GREEN…';
+    document.getElementById('reactionStatus').textContent = 'Stay ready…';
+    reactionTimer = setTimeout(() => {
+      reactionState = 'go'; reactionStartedAt = performance.now();
+      reactionTarget.style.background = '#16a34a'; reactionTarget.textContent = 'TAP NOW!';
+      document.getElementById('reactionStatus').textContent = 'GO GO GO!';
+    }, 900 + Math.random() * 2600);
+  });
+  reactionTarget.addEventListener('click', () => {
+    if (reactionState === 'waiting') {
+      clearTimeout(reactionTimer); reactionState = 'idle';
+      reactionTarget.style.background = '#b91c1c'; reactionTarget.textContent = 'Too soon!';
+      document.getElementById('reactionStatus').textContent = 'False start! Try again.';
+    } else if (reactionState === 'go') {
+      const ms = Math.round(performance.now() - reactionStartedAt); reactionState = 'idle';
+      reactionTarget.style.background = '#34266d'; reactionTarget.textContent = 'Nice reflexes!';
+      document.getElementById('reactionStatus').textContent = `Reaction time: ${ms} ms ${ms < 250 ? '🔥 Lightning fast!' : ms < 400 ? '⚡ Pretty quick!' : 'Keep practicing!'}`;
+    }
+  });
+
+  const memoryEmojis = ['🎂','🎁','🎈','⭐','🎂','🎁','🎈','⭐'];
+  let memoryFirst = null, memoryLock = false, memoryMoves = 0, memoryPairs = 0;
+  function setupMemory() {
+    const board = document.getElementById('memoryBoard'); board.innerHTML = '';
+    memoryFirst = null; memoryLock = false; memoryMoves = 0; memoryPairs = 0;
+    document.getElementById('memoryStatus').textContent = 'Moves: 0 · Pairs: 0/4';
+    const shuffled = [...memoryEmojis].sort(() => Math.random() - .5);
+    shuffled.forEach((emoji, index) => {
+      const tile = document.createElement('button'); tile.type = 'button';
+      tile.className = 'game-choice memory-tile'; tile.textContent = '❔'; tile.dataset.emoji = emoji;
+      tile.setAttribute('aria-label', 'Hidden memory tile ' + (index + 1));
+      tile.addEventListener('click', () => {
+        if (memoryLock || tile.classList.contains('revealed') || tile.dataset.matched === 'yes') return;
+        tile.textContent = emoji; tile.classList.add('revealed');
+        if (!memoryFirst) { memoryFirst = tile; return; }
+        memoryMoves++;
+        if (memoryFirst.dataset.emoji === tile.dataset.emoji) {
+          memoryFirst.dataset.matched = 'yes'; tile.dataset.matched = 'yes'; memoryPairs++;
+          memoryFirst = null;
+          document.getElementById('memoryStatus').textContent = `Moves: ${memoryMoves} · Pairs: ${memoryPairs}/4`;
+          if (memoryPairs === 4) document.getElementById('memoryStatus').textContent = `🏆 You won in ${memoryMoves} moves!`;
+        } else {
+          memoryLock = true; const first = memoryFirst; memoryFirst = null;
+          document.getElementById('memoryStatus').textContent = `Moves: ${memoryMoves} · Pairs: ${memoryPairs}/4`;
+          setTimeout(() => { first.textContent = '❔'; tile.textContent = '❔'; first.classList.remove('revealed'); tile.classList.remove('revealed'); memoryLock = false; }, 700);
+        }
+      });
+      board.appendChild(tile);
+    });
+  }
+  document.getElementById('memoryStart').addEventListener('click', setupMemory);
+  setupMemory();
+
+  let secretNumber = Math.floor(Math.random() * 20) + 1, guessCount = 0;
+  function resetGuess() {
+    secretNumber = Math.floor(Math.random() * 20) + 1; guessCount = 0;
+    document.getElementById('guessInput').value = '';
+    document.getElementById('guessStatus').textContent = 'New number picked. Guess from 1–20!';
+  }
+  document.getElementById('guessForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const input = document.getElementById('guessInput'), guess = Number(input.value);
+    if (!Number.isInteger(guess) || guess < 1 || guess > 20) {
+      document.getElementById('guessStatus').textContent = 'Enter a whole number from 1 to 20.'; return;
+    }
+    guessCount++;
+    const status = document.getElementById('guessStatus');
+    if (guess === secretNumber) {
+      status.textContent = `🎉 Correct! You got it in ${guessCount} ${guessCount === 1 ? 'guess' : 'guesses'}!`;
+      burst(innerWidth/2, innerHeight*.4, 35);
+    } else status.textContent = guess < secretNumber ? '📈 Too low — guess higher!' : '📉 Too high — guess lower!';
+    input.value = '';
+  });
+  document.getElementById('guessReset').addEventListener('click', resetGuess);
+
+  const colorButtons = [...document.querySelectorAll('#colorBoard [data-color]')];
+  let colorSequence = [], colorInput = [], colorRound = 0, colorBusy = false;
+  const colorNames = ['Pink','Blue','Green','Yellow'];
+  function flashColor(index) {
+    const button = colorButtons[index], old = button.style.filter;
+    button.style.filter = 'brightness(1.8)'; button.style.transform = 'scale(1.12)';
+    setTimeout(() => { button.style.filter = old; button.style.transform = ''; }, 330);
+  }
+  function playColorSequence() {
+    colorBusy = true;
+    document.getElementById('colorStatus').textContent = 'Watch carefully…';
+    colorSequence.forEach((color, i) => setTimeout(() => flashColor(color), 500 + i * 650));
+    setTimeout(() => { colorBusy = false; colorInput = []; document.getElementById('colorStatus').textContent = `Round ${colorRound}: repeat the ${colorSequence.length} colors!`; }, 500 + colorSequence.length * 650);
+  }
+  function startColorGame() { colorSequence = []; colorInput = []; colorRound = 1; colorSequence.push(Math.floor(Math.random()*4)); playColorSequence(); }
+  document.getElementById('colorStart').addEventListener('click', startColorGame);
+  colorButtons.forEach((button, index) => button.addEventListener('click', () => {
+    if (colorBusy || colorRound === 0) return;
+    flashColor(index); colorInput.push(index);
+    const pos = colorInput.length - 1;
+    if (colorInput[pos] !== colorSequence[pos]) {
+      document.getElementById('colorStatus').textContent = `Game over at round ${colorRound}. Press start to try again!`;
+      colorRound = 0; return;
+    }
+    if (colorInput.length === colorSequence.length) {
+      colorRound++;
+      document.getElementById('colorStatus').textContent = `✅ Correct! Next round: ${colorRound}`;
+      colorSequence.push(Math.floor(Math.random()*4));
+      setTimeout(playColorSequence, 650);
+    }
+  }));
+
+  let rpsYou = 0, rpsBot = 0;
+  const rpsNames = {rock:'✊ Rock', paper:'✋ Paper', scissors:'✌️ Scissors'};
+  document.querySelectorAll('#rpsBoard [data-rps]').forEach(button => button.addEventListener('click', () => {
+    if (rpsYou >= 5 || rpsBot >= 5) return;
+    const you = button.dataset.rps, choices = ['rock','paper','scissors'], bot = choices[Math.floor(Math.random()*3)];
+    let result = you === bot ? 'Draw round!' :
+      ((you === 'rock' && bot === 'scissors') || (you === 'paper' && bot === 'rock') || (you === 'scissors' && bot === 'paper')) ? 'You win this round!' : 'Bot wins this round!';
+    if (result.startsWith('You win')) rpsYou++; else if (result.startsWith('Bot')) rpsBot++;
+    const status = document.getElementById('rpsStatus');
+    status.textContent = `${rpsNames[you]} vs ${rpsNames[bot]} — ${result} Score: You ${rpsYou} — Bot ${rpsBot}`;
+    if (rpsYou >= 5 || rpsBot >= 5) status.textContent += rpsYou >= 5 ? ' 🏆 YOU WIN THE MATCH!' : ' 🤖 Bot wins! Rematch?';
+  }));
+  document.getElementById('rpsReset').addEventListener('click', () => {
+    rpsYou = 0; rpsBot = 0; document.getElementById('rpsStatus').textContent = 'You 0 — Bot 0';
+  });
+
+  // Secret code: GAJINDU
+  document.getElementById('secretForm').addEventListener('submit', event => {
+    event.preventDefault();
+    const code = document.getElementById('secretCode').value.trim().toUpperCase();
+    if (code === 'GAJINDU') {
+      document.getElementById('secretMessage').classList.add('show');
+      burst(innerWidth/2, innerHeight*.4, 90);
+      confettiRain(90);
+    } else {
+      const input = document.getElementById('secretCode');
+      input.value = '';
+      input.placeholder = 'Try his name 😉';
+      input.style.borderColor = '#ff4f9a';
+      setTimeout(() => input.style.borderColor = '', 1200);
+    }
+  });
+
+  // Party mode toggle
+  let partyOn = false;
+  document.getElementById('partyButton').addEventListener('click', () => {
+    partyOn = !partyOn;
+    document.body.classList.toggle('party-on', partyOn);
+    document.getElementById('partyBorder').hidden = !partyOn;
+    document.getElementById('partyMessage').classList.add('show');
+    document.getElementById('partyButton').textContent = partyOn ? '🧊 Turn Party Mode Off' : '🎉 Activate Party Mode';
+    document.getElementById('partyMessage').textContent = partyOn ? 'PARTY MODE ACTIVATED! 🥳 Tap again whenever you’re ready to chill.' : 'Party mode is off. The birthday magic stays! 💜';
+    if (partyOn) {
+      for(let i=0;i<10;i++) setTimeout(()=>burst(innerWidth*(.08+Math.random()*.84),innerHeight*(.1+Math.random()*.6),95),i*130);
+      confettiRain(260);
+    }
+  });
+
+  // The welcome screen opens first; celebration begins after the start button is tapped.
+})();
+</script>
+</body>
+</html>
