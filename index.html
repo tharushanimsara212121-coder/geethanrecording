@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grade 11 Science | All Recordings Portal (Jan - Oct)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0b0f19;
+            --bg-header: linear-gradient(135deg, #111827, #0b0f19);
+            --bg-card: #1f2937;
+            --bg-input: #111827;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --primary: #3b82f6;
+            --primary-hover: #2563eb;
+            --border-color: #374151;
+            --red-yt: #ef4444;
+            --red-yt-hover: #dc2626;
+            --green: #10b981;
+            --shadow: 0 10px 25px rgba(0,0,0,0.5);
+            
+            --c-bio: #10b981;
+            --c-chem: #8b5cf6;
+            --c-phy: #3b82f6;
+            --c-rev: #f59e0b;
+        }
+
+        [data-theme="light"] {
+            --bg-body: #f3f4f6;
+            --bg-header: linear-gradient(135deg, #ffffff, #e5e7eb);
+            --bg-card: #ffffff;
+            --bg-input: #f9fafb;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
+            --shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Noto Sans Sinhala', sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-main); transition: 0.3s; padding-bottom: 60px; min-height: 100vh; }
+        
+        .internet-notice {
+            background-color: #dc2626;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(220, 38, 38, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        header { background: var(--bg-header); padding: 40px 20px; text-align: center; border-bottom: 1px solid var(--border-color); position: relative; }
+        .theme-toggle { position: absolute; top: 25px; right: 20px; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-main); padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: 0.2s; }
+        .theme-toggle:hover { background: var(--primary); color: white; border-color: var(--primary); }
+        .tagline { color: var(--primary); font-size: 0.95rem; font-weight: 600; margin-bottom: 10px; display: inline-block; padding: 5px 15px; background: rgba(59, 130, 246, 0.1); border-radius: 20px; }
+        header h1 { font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; color: var(--text-main); }
+        header p { color: var(--text-muted); font-size: 1.1rem; }
+
+        .container { max-width: 1250px; margin: 0 auto; padding: 30px 20px; }
+
+        .dashboard { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 30px; display: flex; flex-direction: column; gap: 20px; box-shadow: var(--shadow); }
+        
+        .overall-banner { background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 10px; padding: 20px; text-align: center; }
+        .overall-banner h3 { color: #ef4444; font-size: 1.2rem; margin-bottom: 8px; font-weight: 700; }
+        .overall-progress-num { font-size: 2.2rem; font-weight: 800; color: #ef4444; margin-bottom: 10px; }
+        
+        .month-stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; margin-top: 10px; }
+        .month-stat-card { background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; padding: 15px; }
+        .month-stat-title { font-weight: 700; color: var(--primary); margin-bottom: 8px; font-size: 1.05rem; display: flex; justify-content: space-between; }
+        .mini-progress { width: 100%; background: var(--border-color); height: 8px; border-radius: 4px; overflow: hidden; margin-top: 8px; }
+        .mini-progress-bar { height: 100%; background: var(--green); width: 0%; transition: width 0.4s ease; }
+
+        .controls { display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; background: var(--bg-card); padding: 20px; border-radius: 12px; border: 1px solid var(--border-color); align-items: center; }
+        .search-box { flex: 1; min-width: 250px; }
+        .search-box input { width: 100%; padding: 12px 15px; background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-main); font-size: 1rem; outline: none; }
+        .search-box input:focus { border-color: var(--primary); }
+        
+        .filter-group { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .filter-label { font-weight: 600; color: var(--text-muted); font-size: 0.9rem; }
+        select.filter-select { padding: 10px 15px; background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; cursor: pointer; font-weight: 600; outline: none; min-width: 150px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        
+        .month-divider { grid-column: 1 / -1; padding: 15px 20px; background: rgba(59, 130, 246, 0.1); border-left: 5px solid var(--primary); border-radius: 8px; margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+        .month-divider h2 { font-size: 1.4rem; color: var(--primary); font-weight: 700; margin: 0; }
+        .month-divider span { font-size: 0.9rem; color: var(--text-main); font-weight: 600; background: var(--bg-card); padding: 5px 12px; border-radius: 20px; }
+
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; transition: 0.3s; display: flex; flex-direction: column; box-shadow: var(--shadow); }
+        .card:hover { transform: translateY(-5px); border-color: var(--primary); }
+        
+        .thumb { width: 100%; padding-top: 56.25%; position: relative; background: #000; overflow: hidden; display: block; border-bottom: 2px solid var(--border-color); }
+        .thumb img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.9; transition: 0.4s; }
+        .card:hover .thumb img { opacity: 1; transform: scale(1.05); }
+        .play-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 55px; height: 55px; background: rgba(239, 68, 68, 0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+        .card:hover .play-icon { opacity: 1; }
+        .play-icon::after { content: ''; border-style: solid; border-width: 9px 0 9px 15px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
+        
+        .card-body { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        .date-text { font-size: 0.85rem; color: var(--text-muted); font-weight: 600; }
+        .topic-badge { font-size: 0.75rem; padding: 4px 10px; border-radius: 20px; font-weight: 700; text-transform: uppercase; border: 1px solid; }
+        
+        .topic-Bio { background: rgba(16, 185, 129, 0.15); color: var(--c-bio); border-color: rgba(16, 185, 129, 0.3); }
+        .topic-Chem { background: rgba(139, 92, 246, 0.15); color: var(--c-chem); border-color: rgba(139, 92, 246, 0.3); }
+        .topic-Phy { background: rgba(59, 130, 246, 0.15); color: var(--c-phy); border-color: rgba(59, 130, 246, 0.3); }
+        .topic-Rev { background: rgba(245, 158, 11, 0.15); color: var(--c-rev); border-color: rgba(245, 158, 11, 0.3); }
+
+        .title { font-size: 1.1rem; color: var(--text-main); font-weight: 700; line-height: 1.4; margin-bottom: 6px; }
+        .yt-caption { font-size: 0.85rem; color: var(--text-muted); font-style: italic; margin-bottom: 15px; flex-grow: 1; }
+        
+        .btn-yt { background: var(--red-yt); color: white; padding: 10px; border-radius: 6px; text-decoration: none; font-weight: 600; display: flex; justify-content: center; align-items: center; margin-bottom: 12px; transition: 0.2s; }
+        .btn-yt:hover { background: var(--red-yt-hover); }
+        
+        .tool-btn { background: var(--bg-input); border: 1px solid var(--border-color); color: var(--text-main); cursor: pointer; padding: 10px; border-radius: 6px; font-weight: 600; transition: 0.2s; width: 100%; }
+        .tool-btn:hover { border-color: var(--primary); }
+        .tool-btn.active { background: rgba(16, 185, 129, 0.1); border-color: var(--green); color: var(--green); }
+
+        footer { text-align: center; padding: 30px; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 40px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="internet-notice">
+        ⚠️ <span>විශේෂ දැනුම්දීමයි: මෙම පිටුව (Page) properly ලෝඩ් වීමට සහ Thumbnails පෙන්වීමට ක්‍රියාකාරී අන්තර්ජාල සම්බන්ධතාවයක් (Internet) අවශ්‍ය වේ.</span>
+    </div>
+
+    <header>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">🌓 Theme</button>
+        <div class="tagline">All Recorded Sessions (Jan - Oct)</div>
+        <h1>11 ශ්‍රේණිය | විද්‍යාව</h1>
+        <p>ගීතාන් දේවින්ද සර් | Geethan Devinda Sir</p>
+    </header>
+
+    <div class="container">
+        <div class="dashboard">
+            <div class="overall-banner">
+                <h3>🔥 මුළු සමස්ත ප්‍රගතිය (Overall Total Progress)</h3>
+                <div class="overall-progress-num" id="overallPercent">0%</div>
+                <div style="font-size: 0.95rem; color: var(--text-muted); font-weight: 600;">
+                    මුළු වීඩියෝ <span id="overallTotalCount">0</span> කින් <span id="overallWatchedCount">0</span> ක් නරඹා අවසන් කර ඇත.
+                </div>
+            </div>
+
+            <div>
+                <h4 style="margin-bottom: 12px; color: var(--text-main); font-size: 1.05rem;">📊 මාසික ප්‍රගමන වාර්තාව (Month-wise Progress)</h4>
+                <div class="month-stats-grid" id="monthStatsGrid"></div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="පාඩමේ නම සෙවුම් කරන්න (Search)...">
+            </div>
+            
+            <div class="filter-group">
+                <span class="filter-label">Month:</span>
+                <select class="filter-select" id="monthSelect">
+                    <option value="all">සියලුම මාස (All Months)</option>
+                    <option value="10">ඔක්තෝබර් (October)</option>
+                    <option value="9">සැප්තැම්බර් (September)</option>
+                    <option value="8">අගෝස්තු (August)</option>
+                    <option value="7">ජුලි (July)</option>
+                    <option value="6">ජුනි (June)</option>
+                    <option value="5">මැයි (May)</option>
+                    <option value="4">අප්‍රේල් (April)</option>
+                    <option value="3">මාර්තු (March)</option>
+                    <option value="2">පෙබරවාරි (February)</option>
+                    <option value="1">ජනවාරි (January)</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-label">Topic:</span>
+                <select class="filter-select" id="topicSelect">
+                    <option value="all">සියලුම කොටස් (All Topics)</option>
+                    <option value="Biology">Biology (ජීව විද්‍යාව)</option>
+                    <option value="Chemistry">Chemistry (රසායන විද්‍යාව)</option>
+                    <option value="Physics">Physics (භෞතික විද්‍යාව)</option>
+                    <option value="Revision">Papers / MCQs</option>
+                </select>
+            </div>
+
+            <div class="filter-group" style="margin-left: auto;">
+                <span class="filter-label">Sort:</span>
+                <select class="filter-select" id="sortSelect">
+                    <option value="asc">පරණ සිට අලුත් (Oldest First)</option>
+                    <option value="desc" selected>අලුත් සිට පරණ (Newest First)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="grid" id="videoGrid"></div>
+    </div>
+
+    <footer>
+        <p>🅰️ ප්‍රතිඵලයට වගකියන විද්‍යාව පන්තිය. | Fully Debugged & Tested</p>
+    </footer>
+
+    <script>
+        const rawTextDump = `
+        📘Gr.10 | ද්‍රවස්ථිති පීඩනය හා එහි යෙදීම් T&Q - Ep.02 | 2026.10.14
+        https://youtu.be/KeCtotPPkTI
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි T&Q - Ep.01 | 2026.10.13
+        https://youtu.be/8V1EGzJdvA4
+        📘Gr.10 | ප්‍රවේණිය - Ep.02 | 2026.10.11
+        https://youtu.be/8H70hYnzUG0
+        📘Gr.11 | MCQ Booster(Q901-1000) | 2026.10.10
+        https://youtu.be/lpUNPFghYZQ
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය T&Q - Ep.02 | 2026.10.10
+        https://youtu.be/r5pXSKxo5LQ
+        📘Gr.10/11 | ධාරා විද්‍යුතය T&Q | 2026.10.07
+        https://youtu.be/1P3MvBp1bxw
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය T&Q - Ep.01 | 2026.10.06
+        https://youtu.be/8VDZJed9meA
+        📘Gr.10 | ප්‍රවේණිය - Ep.01 | 2026.10.04
+        https://youtu.be/6Xkj8BcsbH8
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව T&Q - Ep.06 | 2026.10.03
+        https://youtube.com/live/tfxRJAnxRxI
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය - Ep.03 | 2026.10.01
+        https://youtu.be/NG2ICoCTUUs
+        📘Physics එක්ක රැයක් | ධාරා විද්‍යුතය | 2026.10.03
+        https://youtu.be/FpaEcXbFHR8
+
+        📘Gr.10/11 | චලිත ප්‍රස්ථාර ගැටලු | 2026.09.30
+        https://youtu.be/sl1T8JmU6fY
+        📘Gr.11 | වි.චුම්බකත්වය හා වි. චුම්බක ප්‍රේරණය - Ep.03 | 2026.09.29
+        https://youtube.com/live/PWXq0nlpGHE
+        📘OL Science | මවුල සංකීර්ණ + මිශ්‍රණ | Zero To Hero | 2026.09.26
+        https://youtu.be/XLMlEO0-0kA
+        📘Gr.11 | MCQ Booster(Q782-900) | 2026.09.24
+        https://youtu.be/N_WsQrlmnpw
+        📘Gr.10 | MCQ Book - Ep.08 | 2026.09.23
+        https://youtu.be/GP23wOjAjYQ
+        📘Gr.11 | වි.චුම්බකත්වය හා වි. චුම්බක ප්‍රේරණය - Ep.02 | 2026.09.22
+        https://youtu.be/ulF-q7AQO3s
+        📘Gr.11 | MCQ Booster(Q782 - 851) | 2026.09.19
+        https://youtu.be/0zGT67JLNsk
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය - Ep.02 | 2026.09.19
+        https://youtu.be/s3IhJfWmTVA
+        📘Gr.11 | MCQ Booster(Q742 - 781) | 2026.09.17
+        https://youtu.be/EW05Mp8xG9g
+        📘Gr.10/11 | 2nd Term Paper Book - Ep.09 | 2026.09.16
+        https://youtu.be/u8jkM0eN6GY
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය - Ep.01 | 2026.09.15
+        https://youtu.be/0RSH-s5o-XM
+        📘Gr.11 | 2nd Term Paper Book - Ep.07 | 2026.09.12
+        https://youtu.be/Ll2ikH7S9dk
+        📘Gr.11 | විද්‍යුත් චුම්බකත්වය | 2026.09.12
+        https://youtu.be/UIVXLn7XPsY
+        📘Gr.11 | MCQ Booster(Q700-741) | 2026.09.10
+        https://youtu.be/0jf_MKXiGu8
+        📘Gr.10/11 | 2nd Term Paper Book - Ep.08 | 2026.09.09
+        https://youtu.be/o5-fmcdT1VY
+        📘Gr.11 | හයිඩ්‍රොකාබන හා ඒවායේ ව්‍යුත්පන්න - Ep.02 | 2026.09.08
+        https://youtu.be/2EkB1LSv_XY
+        📘Gr.11 | හයිඩ්‍රොකාබන - Ep.01 | 2026.09.08
+        https://youtu.be/MwsbTFqAQfk
+        📘Gr.11 | 2nd Term Paper Book - Ep.06 | 2026.09.04
+        https://youtu.be/jv5uTwFJCFI
+        📘Gr.10/11 | 2nd Term Paper Book - Ep.07 | 2026.09.04
+        https://youtube.com/live/OQVmdLCbMA4
+        📘Gr.11 | MCQ Booster | 2026.09.03
+        https://youtu.be/iedmLJ1ceXE
+        📘OL Science | ප්‍රකාශ විද්‍යාව පැය 5️⃣ න් | 2026.09.01
+        https://youtu.be/HFOGQBqGu3E
+        
+        📘Gr.11 | Unit 14 | හයිඩ්‍රොකාබන හා ඒවායේ ව්‍යුත්පන්න - Ep.01 | 2026.08.29
+        https://youtu.be/MwsbTFqAQfk
+        📘OL Science | රසායන විද්‍යාව එක පෙළට | 2026.08.28
+        https://youtu.be/YxbD9_s7lEo
+        📘Gr.11 | Unit 11 | ඉලෙක්ට්‍රොනික විද්‍යාව - Ep.02 | 2026.08.27
+        https://youtube.com/live/HpX5G8zJM5A
+        📘Gr.10/11 | MCQ Booster - Ep.07 | 2026.08.26
+        https://youtu.be/UUsUzS8hyXM
+        📘Gr.11 | Unit 11 | ඉලෙක්ට්‍රොනික විද්‍යාව - Ep.01 | 2026.08.26
+        https://youtu.be/7eqE1VPQpq8
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.05 | 2026.08.25
+        https://youtu.be/uAWmNqD90mg
+        📘Zero to Hero | Chemistry Discussion - 02 | 2026.08.21
+        https://youtu.be/KJ96XbuEe_s
+        📘Zero to Hero | Chemistry Discussion - 01 | 2026.08.19
+        https://youtu.be/gbBhGjvFEgc
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.04 | 2026.08.15
+        https://youtube.com/live/NaE-UABWHkM
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.03 | 2026.08.15
+        https://youtu.be/N5bI5_UsAkU
+        📘Gr.10 | 2nd Term Paper Book - Ep.05 | 2026.08.12
+        https://youtu.be/J-10jP6wDdw
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.01 | 2026.08.11
+        https://youtu.be/4hTOvCmxwPg
+        📘Zero to Hero | 10 ශ්‍රේණිය Revision | 2026.08.10
+        https://youtu.be/4m1ukZ8oXcc
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.02 | 2026.08.08
+        https://youtu.be/JtSJHX38vTQ
+        📘Gr.11 | MCQ Booster | 2026.08.06
+        https://youtu.be/1GPoqpOOL3Q
+        📘OL Science | විද්‍යුත් රසායනය සම්මන්ත්‍රණය | 2026.08.04
+        https://youtube.com/live/fu-rdy7q9Jk
+        📘Gr.11 | Unit 10 | විද්‍යුත් උපකරණවල ජවය හා ශක්තිය - Ep.04 | 2026.08.02
+        https://youtube.com/live/P5aMYKCnI7o
+        📘Gr.11 | Unit 12 | විද්‍යුත් රසායනය - Ep.01 | 2026.08.01
+        https://youtu.be/oxa5j8NIF8A
+
+        📘Gr.10 | 2nd Term Paper Book - Ep.03 | 2026.07.22
+        https://youtu.be/ULXYMIUoKV0
+        📘Gr.11 | Unit 10 | විද්‍යුත් උපකරණවල ජවය හා ශක්තිය - Ep.02 | 2026.07.21
+        https://youtu.be/mL6q7Q9GnAg
+        📘Gr.11 | BiO Booster Seminar | 2026.07.18
+        https://youtube.com/live/EU4-KOJh1oc
+        📘Gr.11 | Unit 10 | විද්‍යුත් උපකරණවල ජවය - Ep.02 | 2026.07.18
+        https://youtu.be/RcBzp8Ga_50
+        📘Gr.11 | Unit 10 | විද්‍යුත් උපකරණවල ජවය - Ep.01 | 2026.07.14
+        https://youtu.be/UhMLHeDiS6I
+        📘Gr.11 | 2nd Term Paper Book - Ep.03 | 2026.07.11
+        https://youtube.com/live/IWY-xvfgymA
+        📘Gr.11 | Unit 10 | විද්‍යුත් උපකරණවල ජවය - Ep.01 | 2026.07.11
+        https://youtu.be/9zetavLE0pM
+        📘10&11 ශ්‍රේණි | වාර විභාගයට පැය 6 ක් | 2026.07.10
+        https://youtu.be/H3JzVzNCLro
+        📘Gr.11 | MCQ Booster - Ep.05 | 2026.07.09
+        https://youtube.com/live/d2sJJMZpPSk
+        📘Gr.10 | 2nd Term Paper Book - Ep.02 | 2026.07.08
+        https://youtu.be/12RRnkN-qhw
+        📘Gr.11 | Unit 09 තාපය - Ep.04 | 2026.07.07
+        https://youtu.be/tnLINA7M98w
+        📘Gr.11 | MCQ Booster - Ep.04 | 2026.07.04
+        https://youtube.com/live/DtUH5q3qi1E
+        📘Gr.11 | Unit 09 | තාපය - Ep.03 | 2026.07.04
+        https://youtu.be/qYmLFSrNyEo
+        📘Gr.11 | MCQ Booster - Ep.03 | 2026.07.02
+        https://youtube.com/live/BmeQUqgxoRE
+        📘Gr.10/11 | Chemistry Past Questions - Ep.01 | 2026.07.01
+        https://youtu.be/nPDMaGyahPw
+
+        📘Gr.11 | Unit 09 | තාපය - Ep.01 | 2026.06.23
+        https://youtu.be/ddNbf08Go_M
+        📘Gr.11 | Unit 09 | තාපය - Ep.01 | 2026.06.20
+        https://youtu.be/fMbJbGhbgMI
+        📘Gr.11 | MCQ Booster - Ep.01 | 2026.06.18
+        https://youtube.com/live/kDpQhepJSXc
+        📘Gr.10 | 2nd Term Paper Book - Ep.01 | 2026.06.17
+        https://youtu.be/dbc7jBjtrps
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.10 | 2026.06.16
+        https://youtu.be/AW0G2Wc7Fs0
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.09 | 2026.06.13
+        https://youtube.com/live/8DQ5Fiyk7LU
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.08 | 2026.06.13
+        https://youtu.be/AIoJOC9iwXs
+        📘Gr.10 Revision | පදාර්ථයේ ව්‍යුහය - Ep.01 | 2026.06.13
+        https://youtu.be/XLwYE_RAYM0
+        📘Gr.10/11 | MCQ Booster - Ep.01 | 2026.06.11
+        https://youtube.com/live/MnH1d_8UuUA
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව T&Q - Ep.04 | 2026.06.11
+        https://youtu.be/QBcshGenWmk
+        📘Gr.10 | Unit 13 | ජෛව ලෝකය - Ep.04 | 2026.06.10
+        https://youtu.be/Tvg90PnXRPo
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.07 | 2026.06.09
+        https://youtu.be/-Pny1nno4vc
+        📘Gr.11 | Unit 07 අම්ල,භස්ම හා ලවණ - Ep.03 | 2026.06.06
+        https://youtu.be/zfsORE_QBLM
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව T&Q - Ep.03 | 2026.06.04
+        https://youtu.be/c-dg6Ceq8nQ
+        📘Gr.10 | Unit 13 | ජෛව ලෝකය - Ep.03 | 2026.06.03
+        https://youtu.be/cOIvmPD_Nc0
+        📘Gr.11 | Unit 07 | අම්ල,භස්ම හා ලවණ - Ep.02 | 2026.06.02
+        https://youtu.be/oFB3y4txenk
+
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.06 | 2026.05.28
+        https://youtu.be/0tWOKr9eyfw
+        📘Gr.10 | Unit 13 | ජෛව ලෝකය - Ep.02 | 2026.05.27
+        https://youtu.be/ceQ6EqXpdGE
+        📘Grade 11 | අම්ල,භස්ම හා ලවණ - Ep.01 | 2026.05.26
+        https://youtu.be/-Y8-7kjO4DM
+        📘Gr.11 | 2nd Term Practice Paper - Ep.02 | 2026.05.23
+        https://youtu.be/DmMkZMYeCq0
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.05 | 2026.05.23
+        https://youtu.be/pJQlhDmbj1Q
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව T&Q - Ep.02 | 2026.05.21
+        https://youtu.be/Wcdfd9gup0Q
+        📘Gr.10 | Unit 13 | ජෛව ලෝකය - Ep.01 | 2026.05.20
+        https://youtube.com/live/LGnyVxKLza0
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.04 | 2026.05.19
+        https://youtu.be/tCHwjJ7Pl0E
+        📘Gr.11 | 2nd Term Practice Paper | 2026.05.16
+        https://youtube.com/live/uORAVYuw9S0
+        📘Gr.11 | Unit 03 | මානව දේහ ක්‍රියාවලි - Ep.04 | 2026.05.16
+        https://youtu.be/6NF7qGz0ytI
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව T&Q - Ep.01 | 2026.05.14
+        https://youtu.be/9BjRCpoti5Y
+        📘Gr.10 | 1st Term Paper Book - Ep.04 | 2026.05.13
+        https://youtu.be/C1fwxd97Uog
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි - Ep.03 | 2026.05.12
+        https://youtu.be/33shp_QufOM
+        📘Gr.11 | 1st Term Paper Book - Ep.07 | 2026.05.09
+        https://youtu.be/PDHfqTDJbcs
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි - Ep.03 | 2026.05.09
+        https://youtu.be/q3Dlgoc4NXk
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් T&Q - Ep.01 | 2026.05.07
+        https://youtu.be/aj5APzYmzf0
+        📘Gr.10 | 1st Term Paper Book - Ep.03 | 2026.05.06
+        https://youtu.be/WR1ok88nlPk
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි - Ep.02 | 2026.05.05
+        https://youtu.be/RLQbjiOW31c
+        📘10&11 ශ්‍රේණි | විශේෂ මවුල සම්මන්ත්‍රණය | 2026.05.03
+        https://youtu.be/0rvQNvPoT28
+        📘Gr.11 | 1st Term Paper Book - Ep.06 | 2026.05.02
+        https://youtube.com/live/V4IkHB9IdAI
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි - Ep.02 | 2026.05.02
+        https://youtu.be/5lmMiL-5T4E
+
+        📘Gr.10 | Unit 07 | මූලද්‍රව්‍ය හා සංයෝග ප්‍රමාණනය - Ep.01 | 2026.04.29
+        https://youtu.be/rPNlfYDsjSU
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි(Seminar) - Ep.01 | 2026.04.28
+        https://youtu.be/FkkNbCglDuc
+        📘Gr.11 | 1st Term Paper Book - Ep.05 | 2026.04.25
+        https://youtu.be/35bR6IVFaQ0
+        📘Gr.11 | මානව දේහ ක්‍රියාවලි - Ep.01 | 2026.04.25
+        https://youtu.be/rbGCXDkjsRI
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.06 | 2026.04.23
+        https://youtu.be/axkYMoeh54Y
+        📘Gr.10 | 1st Term Paper Book - Ep.02 | 2026.04.22
+        https://youtu.be/YAMswW5Z6FE
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.05 | 2026.04.21
+        https://youtu.be/mJXzf8-b00k
+        📘Gr.11 | 1st Term Paper Book - Ep.04 | 2026.04.18
+        https://youtu.be/uB0pmOARqQM
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව - Ep.04 | 2026.04.11
+        https://youtube.com/live/UZ0Qqr-ZKyg
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව - Ep.03 | 2026.04.11
+        https://youtu.be/TY8BMdlyBO8
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.04 | 2026.04.09
+        https://youtu.be/yHAiYRYWw7g
+        📘Gr.10 | 1st Term Paper Book - Ep.01 | 2026.04.08
+        https://www.youtube.com/live/RVptob0pI1I
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව - Ep.02 | 2026.04.07
+        https://youtu.be/uETjFzqaBOA
+        📘Gr.11 | 1st Term Paper Book - Ep.03 | 2026.04.04
+        https://youtu.be/1BkTmhhiNdU
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව - Ep.02 | 2026.04.04
+        https://youtu.be/R8t1NWMWopk
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.03 | 2026.04.02
+        https://youtu.be/nhwmfDFVOhk
+
+        📘Gr.11 | MCQ Booster - Ep.01 | 2026.03.28
+        https://youtube.com/live/_nquAyxIRrs
+        📘Gr.11 | ප්‍රකාශ විද්‍යාව - Ep.01 | 2026.03.28
+        https://youtu.be/eW3N2grOWCs
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.02 | 2026.03.26
+        https://youtu.be/Zf5sXU5CnYY
+        📘Gr.10 | සරල රේඛීය චලිතය Seminar | 2026.03.25
+        https://youtu.be/2vCmXZWuGIE
+        📘Gr.11 | 1st Term Paper Book - Ep.02 | 2026.03.24
+        https://youtu.be/6FUIE7kiWNg
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් - Ep.05 | 2026.03.21
+        https://youtu.be/kFpM9sEDApE
+        📘Gr.11 | ප්‍රභාසංස්ලේෂණය T&Q - Ep.02 | 2026.03.21
+        https://youtu.be/TlLEiQWmhpA
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් - Ep.04 | 2026.03.21
+        https://youtu.be/bzil1dXN69g
+        📘OL Science || Physics එක්ක රැයක් | 2026.03.18
+        https://youtu.be/I_t-JigWp_s
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් - Ep.03 | 2026.03.17
+        https://youtu.be/lPlXcGEjSn0
+        📘Gr.11 | 1st Term Model Paper Book - Ep.01 | 2026.03.14
+        https://youtube.com/live/TpYkQAYgrNA
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් - Ep.03 | 2026.03.14
+        https://youtu.be/VRgtMvC0k-0
+        📘Gr.11 | ප්‍රභාසංස්ලේෂණය T&Q - Ep.01 | 2026.03.12
+        https://youtu.be/idSG_fcExOI
+        📘Gr.10/11 | පදාර්ථයේ ව්‍යුහය Short Note - Ep.02 | 2026.03.11
+        https://youtu.be/Khp1GgnBuE4
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම් - Ep.02 | 2026.03.10
+        https://youtu.be/CNrIOXRGJ6c
+        📘Gr.11 | මිශ්‍රණ T&Q - Ep.01 | 2026.03.07
+        https://youtu.be/eCxb4Qyo9JI
+        📘Gr.11 | තරංග - Ep.02 | 2026.03.07
+        https://youtu.be/5nDHxGEbKQ0
+        📘Gr.11 | ජීවී පටක T&Q - Ep.02 | 2026.03.05
+        https://youtu.be/0YBFk7H8TkQ
+        📘ලංකාවටම තිතටම Chemistry - 01 | 2026.03.04
+        https://youtu.be/S2_tVc24eXM
+        📘Gr.11 | තරංග හා ඒවායේ යෙදීම්(Seminar) | 2026.03.03
+        https://youtu.be/OLepIrPgZGg
+
+        📘Gr.10&11 | ඝර්ෂණය - Ep.01 | 2026.02.25
+        https://youtu.be/q5POHhxVjLw
+        📘Gr.11 | මිශ්‍රණ - Ep.07 | 2026.02.18
+        https://www.youtube.com/live/Mata7KEkEN8
+        📘Gr.11 | මිශ්‍රණ - Ep.06 | 2026.02.18
+        https://youtu.be/Z9gNYNWcNtc
+        📘Gr.11 | මිශ්‍රණ - Ep.05 | 2026.02.17
+        https://youtu.be/_94cRaZ76hk
+        📘Gr.11 | මිශ්‍රණ - Ep.04 | 2026.02.14
+        https://youtu.be/BGbCR3-Vuwg
+        📘Gr.11 | මිශ්‍රණ - Ep.03 | 2026.02.14
+        https://youtu.be/O1zvop0vTxc
+        📘Gr.11 | මිශ්‍රණ - Ep.03 | 2026.02.10
+        https://youtube.com/live/9mCebHbsosA
+        📘Gr.11 | මිශ්‍රණ - Ep.02 | 2026.02.07
+        https://youtube.com/live/3Gke0aMXzoM
+        📘Gr.11 | ප්‍රභාසංස්ලේෂණය - Ep.03 | ජීවී පටක - Ep.06 | 2026.02.04
+        https://youtube.com/live/bfPMdSbhjW4
+        📘Gr.11 | ජීවී පටක - Ep.05 | 2026.02.03
+        https://youtube.com/live/6XbiVLl_76w
+
+        📘OL Biology Past Questions | 2026.01.31
+        https://youtube.com/live/ixaLLhaIsok
+        📘Gr.11 | මිශ්‍රණ - Ep.01(Seminar) | 2026.01.31
+        https://youtube.com/live/PWJMCT7fJBs
+        📘Gr.11 | මිශ්‍රණ - Ep.01 | 2026.01.28
+        https://youtube.com/live/mxSAv2I6stU
+        📘Gr.11 | ජීවී පටක - Ep.05 | 2026.01.27
+        https://youtube.com/live/weiNJDB_SXg
+        📘 OL Chemistry Past Questions | 2026.01.24
+        https://youtube.com/live/kIXgDn5k3LA
+        📘Gr.11 | ජීවී පටක - Ep.05 | 2026.01.24
+        https://youtube.com/live/kvejybw6b5c
+        📘Gr.11 | ප්‍රභාසංස්ලේෂණය - Ep.02 | 2026.01.21
+        https://youtube.com/live/5a_EfYb0I7g
+        📘Gr.11 | ජීවී පටක - Ep.04 | 2026.01.20
+        https://youtube.com/live/L8AvGIF11E4
+        📘OL Physics Past Questions | 2026.01.17
+        https://youtube.com/live/tjjlWbKH8m0
+        📘Gr.11 | ජීවී පටක - Ep.04 | 2026.01.17
+        https://youtube.com/live/h6PLfSMc9mQ
+        📘OL Science | Biology අග සිට මුලට | 2026.01.15
+        https://youtube.com/live/Gdh6qp54Zwk
+        📘Gr.11 | ජීවී පටක - Ep.03 | 2026.01.13
+        https://youtube.com/live/iO6deJy6tdE
+        📘Gr.10 | 3rd Term Paper - Ep.02 | 2026.01.10
+        https://youtube.com/live/6H4HhVzVkbY
+        📘Gr.11 | ජීවී පටක - Ep.03 | 2026.01.10
+        https://youtube.com/live/4_zTcq8Eu88
+        📘Gr.11 | ප්‍රභාසංස්ලේෂණය - Ep.01 | 2026.01.07
+        https://youtube.com/live/jRrkw3wUANY
+        📘Gr.11 | ජීවී පටක - Ep.02 | 2026.01.06
+        https://youtu.be/ICK4tr9SWH8
+        📘Gr.11 | Bio Booster | PART 03 | 2026.01.03
+        https://youtube.com/live/P9OADGXcEps
+        📘Gr.11 | Bio Booster | PART 02 | 2026.01.03
+        https://youtube.com/live/V3o4eSiCyQk
+        📘Gr.11 | Bio Booster | PART 01 | 2026.01.03
+        https://youtube.com/live/fx3AK5RBG04
+        📘Gr.11 | ජීවී පටක - Ep.02 | Part 02 | 2026.01.03
+        https://youtube.com/live/Lnw8oQFfYBY
+        📘Gr.11 | ජීවී පටක - Ep.02 | Part 01 | 2026.01.03
+        https://youtube.com/live/n-xEllh0kYE
+        📘Gr.11 | මිශ්‍රණ ගැටලු | PART 01 | 2026.01.01
+        https://youtube.com/live/rYzZeWL2qEA
+        📘Gr.11 | මිශ්‍රණ ගැටලු | PART 02 | 2026.01.01
+        https://youtube.com/live/OBb5aoDwe6g
+        📘Gr.11 | මිශ්‍රණ ගැටලු | PART 03 | 2026.01.01
+        https://youtube.com/live/VMyBc8HEOCo
+        `;
+
+        const videos = [];
+        const seenIds = new Set();
+        const lines = rawTextDump.split('\n');
+        let tempCaption = '';
+        
+        const sinhalaMonths = [
+            { num: 1, name: 'ජනවාරි (January)' },
+            { num: 2, name: 'පෙබරවාරි (February)' },
+            { num: 3, name: 'මාර්තු (March)' },
+            { num: 4, name: 'අප්‍රේල් (April)' },
+            { num: 5, name: 'මැයි (May)' },
+            { num: 6, name: 'ජුනි (June)' },
+            { num: 7, name: 'ජුලි (July)' },
+            { num: 8, name: 'අගෝස්තු (August)' },
+            { num: 9, name: 'සැප්තැම්බර් (September)' },
+            { num: 10, name: 'ඔක්තෝබර් (October)' },
+            { num: 11, name: 'නොවැම්බර් (November)' },
+            { num: 12, name: 'දෙසැම්බර් (December)' }
+        ];
+
+        for(let i=0; i<lines.length; i++) {
+            let line = lines[i].trim();
+            if(line.includes('📘') || line.includes('🟢') || line.match(/202[4-6]/)) {
+                tempCaption = line.replace(/📘|🟢/g, '').trim();
+            }
+            if(line.includes('youtu')) {
+                const idMatch = line.match(/(?:youtu\.be\/|youtube\.com\/(?:live\/|watch\?v=))([\w-]+)/);
+                if(idMatch && tempCaption) {
+                    const id = idMatch[1];
+                    if(!seenIds.has(id)) {
+                        seenIds.add(id);
+                        
+                        const dateMatch = tempCaption.match(/202[4-6]\.\d{1,2}\.\d{1,2}/);
+                        let dateStr = '2026-01-01';
+                        if(dateMatch) { 
+                            const parts = dateMatch[0].split('.');
+                            const y = parts[0];
+                            const m = parts[1].padStart(2, '0');
+                            const d = parts[2].padStart(2, '0');
+                            dateStr = `${y}-${m}-${d}`;
+                        }
+                        
+                        let topic = 'Revision';
+                        let topicKey = 'Rev';
+                        const titleLower = tempCaption.toLowerCase();
+                        
+                        if(/මානව දේහ|ජෛව|ජීවී|ප්‍රභාසංස්ලේෂණය|ප්‍රවේණිය|bio/i.test(titleLower)) { topic = 'Biology'; topicKey = 'Bio'; }
+                        else if(/අම්ල|මිශ්‍රණ|හයිඩ්‍රොකාබන|රසායන|මවුල|chem/i.test(titleLower)) { topic = 'Chemistry'; topicKey = 'Chem'; }
+                        else if(/ප්‍රකාශ|තාපය|තරංග|විද්‍යුත් උපකරණ|ඉලෙක්ට්‍රොනික|චලිත|ඝර්ෂණය|බල|විද්‍යුත් චුම්බකත්වය|ධාරා විද්‍යුතය|ද්‍රවස්ථිති|physics/i.test(titleLower)) { topic = 'Physics'; topicKey = 'Phy'; }
+
+                        let cleanTitle = tempCaption.replace(/\|?\s*202[4-6].*/, '').trim();
+                        if(cleanTitle.endsWith('|')) cleanTitle = cleanTitle.slice(0, -1).trim();
+                        
+                        const m = parseInt(dateStr.split('-')[1], 10);
+                        const monthObj = sinhalaMonths.find(x => x.num === m) || sinhalaMonths[0];
+                        
+                        videos.push({
+                            id,
+                            title: cleanTitle,
+                            caption: tempCaption,
+                            date: dateStr,
+                            topic,
+                            topicKey,
+                            monthNum: m,
+                            monthName: monthObj.name,
+                            timestamp: new Date(dateStr).getTime()
+                        });
+                    }
+                }
+            }
+        }
+
+        let completedVideos = JSON.parse(localStorage.getItem('portalCompleted')) || [];
+        
+        function saveProgress() {
+            localStorage.setItem('portalCompleted', JSON.stringify(completedVideos));
+            updateDashboard();
+        }
+
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('theme', target);
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+
+        function renderVideos() {
+            const grid = document.getElementById('videoGrid');
+            grid.innerHTML = '';
+
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const monthVal = document.getElementById('monthSelect').value;
+            const topicVal = document.getElementById('topicSelect').value;
+            const sortVal = document.getElementById('sortSelect').value;
+
+            let filtered = videos.filter(v => {
+                const matchSearch = v.title.toLowerCase().includes(searchTerm) || v.caption.toLowerCase().includes(searchTerm);
+                const matchMonth = monthVal === 'all' || v.monthNum.toString() === monthVal;
+                const matchTopic = topicVal === 'all' || v.topic === topicVal;
+                return matchSearch && matchMonth && matchTopic;
+            });
+
+            filtered.sort((a, b) => {
+                return sortVal === 'asc' ? a.timestamp - b.timestamp : b.timestamp - a.timestamp;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px; font-weight: 600; font-size:1.1rem;">අදාළ ෆිල්ටර සඳහා පාඩම් හමු නොවීය.</p>`;
+                return;
+            }
+
+            let currentMonthGroup = -1;
+
+            filtered.forEach((video, index) => {
+                if(video.monthNum !== currentMonthGroup) {
+                    const divider = document.createElement('div');
+                    divider.className = 'month-divider';
+                    const countInMonth = filtered.filter(x => x.monthNum === video.monthNum).length;
+                    divider.innerHTML = `<h2>📅 ${video.monthName}</h2> <span>${countInMonth} Videos</span>`;
+                    grid.appendChild(divider);
+                    currentMonthGroup = video.monthNum;
+                }
+
+                const isDone = completedVideos.includes(video.id);
+                const animDelay = (index % 10) * 0.05;
+                
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.style.animationDelay = `${animDelay}s`;
+
+                card.innerHTML = `
+                    <a href="https://youtu.be/${video.id}" target="_blank" class="thumb">
+                        <img src="https://img.youtube.com/vi/${video.id}/hqdefault.jpg" alt="Thumbnail">
+                        <div class="play-icon"></div>
+                    </a>
+                    <div class="card-body">
+                        <div class="card-header">
+                            <span class="topic-badge topic-${video.topicKey}">${video.topic}</span>
+                            <span class="date-text">${video.date}</span>
+                        </div>
+                        <h3 class="title">${video.title}</h3>
+                        <div class="yt-caption">( ${video.caption} )</div>
+                        
+                        <div style="margin-top: auto;">
+                            <a href="https://youtu.be/${video.id}" target="_blank" class="btn-yt">▶ Watch on YouTube</a>
+                            <button class="tool-btn ${isDone ? 'active' : ''}" onclick="toggleStatus('${video.id}')">
+                                ${isDone ? '✅ Watched (බලා අවසන්)' : '⏳ Mark as Watched'}
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        window.toggleStatus = function(id) {
+            const index = completedVideos.indexOf(id);
+            if (index > -1) { completedVideos.splice(index, 1); } 
+            else { completedVideos.push(id); }
+            saveProgress();
+            renderVideos();
+        };
+
+        function updateDashboard() {
+            const totalVideos = videos.length;
+            const totalWatched = completedVideos.filter(id => videos.some(v => v.id === id)).length;
+            const overallPercent = totalVideos > 0 ? Math.round((totalWatched / totalVideos) * 100) : 0;
+
+            document.getElementById('overallPercent').innerText = overallPercent + '%';
+            document.getElementById('overallTotalCount').innerText = totalVideos;
+            document.getElementById('overallWatchedCount').innerText = totalWatched;
+
+            const monthStatsGrid = document.getElementById('monthStatsGrid');
+            monthStatsGrid.innerHTML = '';
+
+            const activeMonths = [...new Set(videos.map(v => v.monthNum))].sort((a,b) => b - a);
+
+            activeMonths.forEach(mNum => {
+                const monthVideos = videos.filter(v => v.monthNum === mNum);
+                const monthTotal = monthVideos.length;
+                const monthWatched = monthVideos.filter(v => completedVideos.includes(v.id)).length;
+                const monthPercent = monthTotal > 0 ? Math.round((monthWatched / monthTotal) * 100) : 0;
+                const monthInfo = sinhalaMonths.find(x => x.num === mNum);
+
+                const card = document.createElement('div');
+                card.className = 'month-stat-card';
+                card.innerHTML = `
+                    <div class="month-stat-title">
+                        <span>${monthInfo ? monthInfo.name : 'Month ' + mNum}</span>
+                        <span style="color: var(--primary);">${monthPercent}%</span>
+                    </div>
+                    <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                        බැලූ ගණන: <b>${monthWatched}</b> / ${monthTotal} ක්
+                    </div>
+                    <div class="mini-progress">
+                        <div class="mini-progress-bar" style="width: ${monthPercent}%;"></div>
+                    </div>
+                `;
+                monthStatsGrid.appendChild(card);
+            });
+        }
+
+        document.getElementById('searchInput').addEventListener('input', renderVideos);
+        document.getElementById('monthSelect').addEventListener('change', renderVideos);
+        document.getElementById('topicSelect').addEventListener('change', renderVideos);
+        document.getElementById('sortSelect').addEventListener('change', renderVideos);
+
+        updateDashboard();
+        renderVideos();
+    </script>
+</body>
+</html>
